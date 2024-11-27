@@ -45,7 +45,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
                         ),
                       ),
                       errorWidget: (context, url, error) => CachedNetworkImage(
-                          imageUrl: Defaultimage.DefaultImageURL),
+                          imageUrl: DefaultImage.DefaultImageURL),
                     ),
                   );
                 },

@@ -6,6 +6,7 @@ import 'package:store/src/models/Product.dart';
 import 'package:store/src/services/APIService.dart';
 import 'package:store/src/utils/ProductConverter.dart';
 import 'package:store/src/widgets/ModalSheet.dart';
+import 'package:store/src/widgets/ProductListItem.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,8 +47,7 @@ class _HomePageState extends State<HomePage> {
         title: const Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(
-                  left: 8.0),
+              padding: EdgeInsets.only(left: 8.0),
               child: Text(
                 'Store Room',
                 style: TextStyle(
@@ -81,32 +81,7 @@ class _HomePageState extends State<HomePage> {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 final Product product = ProductDataConversion(items[index]);
-                return Card(
-                  elevation: 3,
-                  margin: const EdgeInsets.all(8),
-                  child: ListTile(
-                    onTap: () {
-                      _showProductDetailsModal(context, product);
-                    },
-                    contentPadding: const EdgeInsets.all(12),
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CachedNetworkImage(
-                        imageUrl: product.images[0],
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(strokeWidth: 1),
-                        errorWidget: (context, url, error) =>
-                            CachedNetworkImage(
-                          imageUrl: Defaultimage.DefaultImageURL,
-                        ),
-                      ),
-                    ),
-                    title: Text(product.title),
-                    subtitle: Text('Rs. ${product.price.toString()}'),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                  ),
-                );
+                return ProductListItem(product: product, tapProvider: _showProductDetailsModal, parentContext: context);
               },
             );
           } else {

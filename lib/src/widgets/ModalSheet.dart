@@ -6,8 +6,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:store/src/constants/DefaultImage.dart';
 
 class ProductModalSheet extends StatefulWidget {
-  Product product;
-  ProductModalSheet({super.key, required this.product});
+  final Product product;
+  const ProductModalSheet({super.key, required this.product});
 
   @override
   State<ProductModalSheet> createState() => _ProductModalSheetState();
@@ -60,7 +60,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                           ),
                           errorWidget: (context, url, error) =>
                               CachedNetworkImage(
-                            imageUrl: Defaultimage.DefaultImageURL,
+                            imageUrl: DefaultImage.DefaultImageURL,
                             fit: BoxFit.cover,
                             height: 400,
                             width: double.infinity,
