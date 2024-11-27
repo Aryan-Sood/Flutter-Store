@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:store/src/constants/AppColors.dart';
-import 'package:store/src/models/Category.dart';
+import 'package:store/src/constants/DefaultImage.dart';
 import 'package:store/src/models/Product.dart';
 import 'package:store/src/services/APIService.dart';
+import 'package:store/src/utils/ProductConverter.dart';
 import 'package:store/src/views/Description.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,7 +26,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // using this default URL for the items which have broken URLs
-    const String defaultImageURl = 'https://i.imgur.com/0qQBkxX.jpg';
 
     return Container(
       color: AppColors.white,
@@ -61,17 +61,7 @@ class _HomePageState extends State<HomePage> {
                             padding: const EdgeInsets.all(8),
                             itemCount: items.length,
                             itemBuilder: (context, index) {
-                              final Category category = Category(
-                                  id: items[index]['category']['id'],
-                                  name: items[index]['category']['name'],
-                                  image: items[index]['category']['image']);
-                              final Product product = Product(
-                                  id: items[index]['id'],
-                                  title: items[index]['title'],
-                                  price: items[index]['price'],
-                                  description: items[index]['description'],
-                                  images: items[index]['images'],
-                                  category: category);
+                              final Product product = ProductDataConversion(items[index]);
                               return Card(
                                 elevation: 3,
                                 margin: const EdgeInsets.all(8),
@@ -83,14 +73,12 @@ class _HomePageState extends State<HomePage> {
                                   leading: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: CachedNetworkImage(
-                                      imageUrl: product.images[0][0] != 'h'
-                                          ? defaultImageURl
-                                          : product.images[0],
+                                      imageUrl: product.images[0],
                                       fit: BoxFit.cover,
                                       placeholder: (context, url) =>
                                           const CircularProgressIndicator(strokeWidth: 1),
                                       errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                          CachedNetworkImage(imageUrl: Defaultimage.DefaultImageURL),
                                     ),
                                   ),
                                   title: Text(product.title),
