@@ -1,11 +1,10 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:store/src/constants/AppColors.dart';
 import 'package:store/src/models/Category.dart';
 import 'package:store/src/models/Product.dart';
 import 'package:store/src/services/APIService.dart';
+import 'package:store/src/views/Description.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,9 +42,7 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 20, color: AppColors.black));
               } else if (snapshot.hasData) {
                 final items = snapshot.data!;
-                return Container(
-                  color: AppColors.white,
-                  child: SafeArea(
+                return SafeArea(
                     top: true,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -79,6 +76,9 @@ class _HomePageState extends State<HomePage> {
                                 elevation: 3,
                                 margin: const EdgeInsets.all(8),
                                 child: ListTile(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => DescriptionPage(product: product)));
+                                  },
                                   contentPadding: const EdgeInsets.all(12),
                                   leading: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                         )
                       ],
                     ),
-                  ),
+                  
                 );
               } else {
                 return const Center(
