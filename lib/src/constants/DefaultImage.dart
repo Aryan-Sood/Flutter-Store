@@ -1,3 +1,3 @@
 class Defaultimage {
-  static const DefaultImageURL = 'https://i.imgur.com/0qQBkxX.jpg';
+  static const DefaultImageURL = 'https://i.imgur.com/yb9UQKL.jpeg';
 }
