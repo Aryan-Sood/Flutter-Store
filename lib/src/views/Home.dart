@@ -25,97 +25,100 @@ class _HomePageState extends State<HomePage> {
 
   void _showProductDetailsModal(BuildContext context, Product product) {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-        builder: (context) {
-          return ProductModalSheet(product: product);
-        });
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return ProductModalSheet(product: product);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.white,
-      child: SafeArea(
-          top: true,
-          bottom: false,
-          child: FutureBuilder<List<dynamic>>(
-            future: data,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator.adaptive();
-              } else if (snapshot.hasError) {
-                return const Text('Error loading data',
-                    style: TextStyle(fontSize: 20, color: AppColors.black));
-              } else if (snapshot.hasData) {
-                final items = snapshot.data!;
-                return SafeArea(
-                  top: true,
-                  bottom: false,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(0,10,0,0),
-                        child: Text(
-                          'Store Room',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.black),
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 1,
+        title: const Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 8.0),
+              child: Text(
+                'Store Room',
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: FutureBuilder<List<dynamic>>(
+        future: data,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text(
+                'Error loading data',
+                style: TextStyle(fontSize: 20, color: AppColors.black),
+              ),
+            );
+          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            final items = snapshot.data!;
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final Product product = ProductDataConversion(items[index]);
+                return Card(
+                  elevation: 3,
+                  margin: const EdgeInsets.all(8),
+                  child: ListTile(
+                    onTap: () {
+                      _showProductDetailsModal(context, product);
+                    },
+                    contentPadding: const EdgeInsets.all(12),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        imageUrl: product.images[0],
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(strokeWidth: 1),
+                        errorWidget: (context, url, error) =>
+                            CachedNetworkImage(
+                          imageUrl: Defaultimage.DefaultImageURL,
                         ),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          padding: const EdgeInsets.fromLTRB(5,0,5,0),
-                          itemCount: items.length,
-                          itemBuilder: (context, index) {
-                            final Product product =
-                                ProductDataConversion(items[index]);
-                            return Card(
-                              elevation: 3,
-                              margin: const EdgeInsets.all(8),
-                              child: ListTile(
-                                onTap: () {
-                                  _showProductDetailsModal(context, product);
-                                },
-                                contentPadding: const EdgeInsets.all(12),
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: CachedNetworkImage(
-                                    imageUrl: product.images[0],
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(
-                                            strokeWidth: 1),
-                                    errorWidget: (context, url, error) =>
-                                        CachedNetworkImage(
-                                            imageUrl:
-                                                Defaultimage.DefaultImageURL),
-                                  ),
-                                ),
-                                title: Text(product.title),
-                                subtitle: Text(product.price.toString()),
-                                trailing: const Icon(Icons.arrow_forward_ios),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
+                    ),
+                    title: Text(product.title),
+                    subtitle: Text('Rs. ${product.price.toString()}'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                   ),
                 );
-              } else {
-                return const Center(
-                  child: Text('No data found',
-                      style: TextStyle(fontSize: 20, color: AppColors.black)),
-                );
-              }
-            },
-          )),
+              },
+            );
+          } else {
+            return const Center(
+              child: Text(
+                'No data found',
+                style: TextStyle(fontSize: 20, color: AppColors.black),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
