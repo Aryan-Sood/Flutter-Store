@@ -11,6 +11,9 @@ This app features:
 - Description Modal
 
 When you click on an image, it opens its description modal with all the necessary details about the item selected.
+I have also used carousels to display multiple images.
+I have used cached network image package to reduce the times loading of same images occurs at different views.
+I am also working on sorting the products based on the category id (in progress).
 
 ## Technical aspects
 The whole project is divided into various folders:

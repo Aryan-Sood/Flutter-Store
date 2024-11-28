@@ -91,17 +91,17 @@ class _HomePageState extends State<HomePage> {
                     ),
                     
               
-                    // const SizedBox(height: 15),
-                    // const Padding(
-                    //     padding: EdgeInsets.symmetric(horizontal: 12),
-                    //     child: Text('Shop by category',
-                    //         style: TextStyle(
-                    //             fontSize: 25,
-                    //             color: AppColors.black,
-                    //             fontWeight: FontWeight.w800))),
-                    // const SizedBox(height: 5),
-                    // FilterTray(
-                    //     categoryIds: categoryIds, categoryNames: categoryNames),
+                    const SizedBox(height: 15),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('Shop by category',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w800))),
+                    const SizedBox(height: 5),
+                    FilterTray(
+                        categoryIds: categoryIds, categoryNames: categoryNames),
               
                     const SizedBox(height: 15),
                     const Padding(
