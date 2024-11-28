@@ -18,9 +18,8 @@ class HomePageList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           itemCount: items.length,
           itemBuilder: (context, index) {
-            final Product product = ProductDataConversion(items[index]);
             return ProductListItem(
-                product: product,
+                product: items[index],
                 tapProvider: showProductModal,
                 parentContext: context);
           }),
