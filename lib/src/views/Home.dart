@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:store/src/constants/AppColors.dart';
@@ -19,10 +20,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  Random random = Random();
+
   late Future<List<dynamic>> data;
   late HashMap<int, String> categoryTypes;
   List<int> categoryIds = [];
   List<String> categoryNames = [];
+  List<String> topProductURLS = [];
 
   @override
   void initState() {
@@ -63,11 +68,18 @@ class _HomePageState extends State<HomePage> {
             );
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final items = snapshot.data!;
+
             categoryTypes = filterCategory(items);
             categoryTypes.forEach((key, value) {
               categoryIds.add(key);
               categoryNames.add(value);
             });
+
+            for (int i=0;i<5;i++){
+              int rand = random.nextInt(items.length-1);
+              final Product product = ProductDataConversion(items[rand]);
+              topProductURLS.add(product.images[0]);
+            }
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -85,16 +97,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 5),
                   SizedBox(
                     height: 250,
-                    child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categoryIds.length,
-                        itemBuilder: (context, index) {
-                          final Product product = ProductDataConversion(items[index]);
-                          return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: TopProductItem(product: product));
-                        },
-                        separatorBuilder: (context, index) => const SizedBox(width: 5) ),
+                    child: TopProductItem(URLs: topProductURLS)
                   ),
 
 
