@@ -39,19 +39,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: const Text(
-          'Store Room',
-          style: TextStyle(
-            color: AppColors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       body: FutureBuilder<List<dynamic>>(
         future: data,
         builder: (context, snapshot) {
@@ -80,49 +67,53 @@ class _HomePageState extends State<HomePage> {
               final Product product = ProductDataConversion(items[rand]);
               topProductURLS.add(product.images[0]);
             }
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  const SizedBox(height: 10),
-                  const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Text('Top Products',
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w800))),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                    height: 250,
-                    child: TopProductItem(URLs: topProductURLS)
-                  ),
-
-
-                  const SizedBox(height: 15),
-                  const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Text('Shop by category',
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w800))),
-                  const SizedBox(height: 5),
-                  FilterTray(
-                      categoryIds: categoryIds, categoryNames: categoryNames),
-
-                  const SizedBox(height: 15),
-                  const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Text('All Products',
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w800))),
-                HomePageList(items: items, showProductModal: showProductModal)
-                ],
+            return SafeArea(
+              top: true,
+              bottom: false,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+              
+                    const SizedBox(height: 10),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('Top Products',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w800))),
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      height: 250,
+                      child: TopProductItem(URLs: topProductURLS)
+                    ),
+                    
+              
+                    const SizedBox(height: 15),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('Shop by category',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w800))),
+                    const SizedBox(height: 5),
+                    FilterTray(
+                        categoryIds: categoryIds, categoryNames: categoryNames),
+              
+                    const SizedBox(height: 15),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('All Products',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w800))),
+                  HomePageList(items: items, showProductModal: showProductModal)
+                  ],
+                ),
               ),
             );
           } else {
