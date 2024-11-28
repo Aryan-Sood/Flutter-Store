@@ -12,8 +12,9 @@ class HomePageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 8),
           itemCount: items.length,
           itemBuilder: (context, index) {
