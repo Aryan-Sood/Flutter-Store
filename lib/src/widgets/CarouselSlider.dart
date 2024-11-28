@@ -6,6 +6,7 @@ import 'package:store/src/models/Product.dart';
 
 class CarouselSliderView extends StatelessWidget {
   final Product product;
+
   const CarouselSliderView({super.key, required this.product});
 
   @override

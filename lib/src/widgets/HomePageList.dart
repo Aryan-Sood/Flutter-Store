@@ -11,15 +11,18 @@ class HomePageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final Product product = ProductDataConversion(items[index]);
-          return ProductListItem(
-              product: product,
-              tapProvider: showProductModal,
-              parentContext: context);
-        });
+    return SizedBox(
+      height: 500,
+      child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final Product product = ProductDataConversion(items[index]);
+            return ProductListItem(
+                product: product,
+                tapProvider: showProductModal,
+                parentContext: context);
+          }),
+    );
   }
 }
