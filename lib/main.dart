@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:store/src/providers/ProductProvider.dart';
 import 'package:store/src/views/Home.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (_) => ProductProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

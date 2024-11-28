@@ -2,8 +2,10 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:store/src/constants/AppColors.dart';
 import 'package:store/src/models/Product.dart';
+import 'package:store/src/providers/ProductProvider.dart';
 import 'package:store/src/services/APIService.dart';
 import 'package:store/src/utils/CategoryFilter.dart';
 import 'package:store/src/utils/ProductConverter.dart';
@@ -20,19 +22,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   Random random = Random();
 
+  bool _isLoading = true;
   late Future<List<dynamic>> data;
   late HashMap<int, String> categoryTypes;
   List<int> categoryIds = [];
   List<String> categoryNames = [];
   List<Product> topProducts = [];
+  
 
   @override
   void initState() {
     super.initState();
-    data = APIService.fetchData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final productProvider = Provider.of<ProductProvider>(context, listen: false);
+      APIService.fetchData().then((value) => productProvider.setProducts(value));
+    });
   }
 
   @override
@@ -62,8 +68,8 @@ class _HomePageState extends State<HomePage> {
               categoryNames.add(value);
             });
 
-            for (int i=0;i<5;i++){
-              int rand = random.nextInt(items.length-1);
+            for (int i = 0; i < 5; i++) {
+              int rand = random.nextInt(items.length - 1);
               final Product product = ProductDataConversion(items[rand]);
               topProducts.add(product);
             }
@@ -75,7 +81,6 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-              
                     const SizedBox(height: 10),
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12),
@@ -86,11 +91,8 @@ class _HomePageState extends State<HomePage> {
                                 fontWeight: FontWeight.w800))),
                     const SizedBox(height: 5),
                     SizedBox(
-                      height: 250,
-                      child: TopProductItem(topProducts: topProducts)
-                    ),
-                    
-              
+                        height: 250,
+                        child: TopProductItem(topProducts: topProducts)),
                     const SizedBox(height: 15),
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12),
@@ -102,7 +104,6 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 5),
                     FilterTray(
                         categoryIds: categoryIds, categoryNames: categoryNames),
-              
                     const SizedBox(height: 15),
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12),
@@ -111,7 +112,8 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 25,
                                 color: AppColors.black,
                                 fontWeight: FontWeight.w800))),
-                  HomePageList(items: items, showProductModal: showProductModal)
+                    HomePageList(
+                        items: items, showProductModal: showProductModal)
                   ],
                 ),
               ),
