@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:store/src/constants/AppColors.dart';
 import 'package:store/src/models/Product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -17,7 +18,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.5,
+      initialChildSize: 0.8,
       minChildSize: 0.3,
       maxChildSize: 0.9,
       expand: false,
@@ -28,7 +29,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
             padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
                   child: Container(
@@ -46,24 +47,23 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                     itemBuilder: (context, index, realIndex) {
                       return Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.product.images[index],
-                          fit: BoxFit.cover,
-                          height: 400,
-                          width: double.infinity,
-                          placeholder: (context, url) => const Center(
-                            child: Text(
-                              'Loading',
-                              style: TextStyle(
-                                  fontSize: 14, color: AppColors.black),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              CachedNetworkImage(
-                            imageUrl: DefaultImage.DefaultImageURL,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.product.images[index],
                             fit: BoxFit.cover,
                             height: 400,
                             width: double.infinity,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator.adaptive()
+                            ),
+                            errorWidget: (context, url, error) =>
+                                CachedNetworkImage(
+                              imageUrl: DefaultImage.DefaultImageURL,
+                              fit: BoxFit.cover,
+                              height: 400,
+                              width: double.infinity,
+                            ),
                           ),
                         ),
                       );
@@ -81,7 +81,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                         fontWeight: FontWeight.bold,
                         color: AppColors.black)),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -89,6 +89,60 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                       style: const TextStyle(
                           fontSize: 16, color: AppColors.black)),
                 ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('Category - ',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w700)),
+                    Text(widget.product.category.name,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.black)),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.product.category.image,
+                    fit: BoxFit.cover,
+                    height: 250,
+                    width: double.infinity,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator.adaptive()
+                    ),
+                    errorWidget: (context, url, error) => CachedNetworkImage(
+                      imageUrl: DefaultImage.DefaultImageURL,
+                      fit: BoxFit.cover,
+                      height: 250,
+                      width: double.infinity,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Added to cart')));
+                    },
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Buy Now',
+                              style: TextStyle(
+                                  color: AppColors.black, fontSize: 18)),
+                          SizedBox(width: 10),
+                          Icon(Icons.shopping_cart, color: AppColors.black)
+                        ],
+                      ),
+                    )),
               ],
             ),
           ),

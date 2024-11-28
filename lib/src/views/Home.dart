@@ -81,7 +81,10 @@ class _HomePageState extends State<HomePage> {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 final Product product = ProductDataConversion(items[index]);
-                return ProductListItem(product: product, tapProvider: _showProductDetailsModal, parentContext: context);
+                return ProductListItem(
+                    product: product,
+                    tapProvider: _showProductDetailsModal,
+                    parentContext: context);
               },
             );
           } else {

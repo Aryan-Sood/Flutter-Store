@@ -7,7 +7,11 @@ class ProductListItem extends StatefulWidget {
   final Product product;
   final Function tapProvider;
   final BuildContext parentContext;
-  const ProductListItem({super.key, required this.product, required this.tapProvider, required this.parentContext});
+  const ProductListItem(
+      {super.key,
+      required this.product,
+      required this.tapProvider,
+      required this.parentContext});
 
   @override
   State<ProductListItem> createState() => _ProductListItemState();
