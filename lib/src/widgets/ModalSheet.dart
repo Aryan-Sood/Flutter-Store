@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:store/src/constants/AppColors.dart';
 import 'package:store/src/models/Product.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:store/src/constants/DefaultImage.dart';
+import 'package:store/src/widgets/CarouselSlider.dart';
 
 class ProductModalSheet extends StatefulWidget {
   final Product product;
@@ -41,37 +41,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                CarouselSlider.builder(
-                    itemCount: widget.product.images.length,
-                    itemBuilder: (context, index, realIndex) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.product.images[index],
-                            fit: BoxFit.cover,
-                            height: 400,
-                            width: double.infinity,
-                            placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator.adaptive()),
-                            errorWidget: (context, url, error) =>
-                                CachedNetworkImage(
-                              imageUrl: DefaultImage.DefaultImageURL,
-                              fit: BoxFit.cover,
-                              height: 400,
-                              width: double.infinity,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    options: CarouselOptions(
-                        enlargeCenterPage: true,
-                        autoPlay: true,
-                        aspectRatio: 16 / 9,
-                        viewportFraction: 0.8,
-                        autoPlayInterval: const Duration(milliseconds: 2000))),
+                CarouselSliderView(product: widget.product),
                 const SizedBox(height: 40),
                 Text(widget.product.title,
                     style: const TextStyle(
@@ -134,7 +104,8 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 20),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // Rounded corners
+                        borderRadius:
+                            BorderRadius.circular(8), // Rounded corners
                       ),
                       elevation: 2, // Button shadow
                     ),
