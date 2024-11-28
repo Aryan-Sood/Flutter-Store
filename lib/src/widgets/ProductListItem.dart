@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:store/src/constants/AppColors.dart';
 import 'package:store/src/models/Product.dart';
 import 'package:store/src/constants/DefaultImage.dart';
 
@@ -38,8 +39,8 @@ class _ProductListItemState extends State<ProductListItem> {
             ),
           ),
         ),
-        title: Text(widget.product.title),
-        subtitle: Text('Rs. ${widget.product.price.toString()}'),
+        title: Text(widget.product.title, style: const TextStyle(fontWeight: FontWeight.w600),),
+        subtitle: Text('Rs. ${widget.product.price.toString()}', style: const TextStyle(color: AppColors.black),),
         trailing: const Icon(Icons.arrow_forward_ios),
       ),
     );

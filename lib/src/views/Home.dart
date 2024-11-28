@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   late HashMap<int, String> categoryTypes;
   List<int> categoryIds = [];
   List<String> categoryNames = [];
-  List<String> topProductURLS = [];
+  List<Product> topProducts = [];
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             for (int i=0;i<5;i++){
               int rand = random.nextInt(items.length-1);
               final Product product = ProductDataConversion(items[rand]);
-              topProductURLS.add(product.images[0]);
+              topProducts.add(product);
             }
             return SafeArea(
               top: true,
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 5),
                     SizedBox(
                       height: 250,
-                      child: TopProductItem(URLs: topProductURLS)
+                      child: TopProductItem(topProducts: topProducts)
                     ),
                     
               
