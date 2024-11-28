@@ -10,7 +10,7 @@ Product ProductDataConversion(item) {
 
     originalImageURLS[i].contains('jpeg')
         ? endIndex = originalImageURLS[i].lastIndexOf('jpeg') + 4
-        : endIndex = originalImageURLS[i].lastIndexOf('jpgg') + 3;
+        : endIndex = originalImageURLS[i].lastIndexOf('jpg') + 3;
 
     correctedImageURLS
         .add(originalImageURLS[i].substring(startIndex, endIndex));
