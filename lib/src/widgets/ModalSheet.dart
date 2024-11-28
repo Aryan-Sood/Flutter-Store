@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:store/src/constants/AppColors.dart';
 import 'package:store/src/models/Product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -20,7 +19,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
     return DraggableScrollableSheet(
       initialChildSize: 0.8,
       minChildSize: 0.3,
-      maxChildSize: 0.9,
+      maxChildSize: 0.95,
       expand: false,
       builder: (context, scrollContainer) {
         return SingleChildScrollView(
@@ -55,8 +54,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                             height: 400,
                             width: double.infinity,
                             placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator.adaptive()
-                            ),
+                                child: CircularProgressIndicator.adaptive()),
                             errorWidget: (context, url, error) =>
                                 CachedNetworkImage(
                               imageUrl: DefaultImage.DefaultImageURL,
@@ -113,8 +111,7 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                     height: 250,
                     width: double.infinity,
                     placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator.adaptive()
-                    ),
+                        child: CircularProgressIndicator.adaptive()),
                     errorWidget: (context, url, error) => CachedNetworkImage(
                       imageUrl: DefaultImage.DefaultImageURL,
                       fit: BoxFit.cover,
@@ -124,25 +121,45 @@ class _ProductModalSheetState extends State<ProductModalSheet> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, // Background color
+                      foregroundColor: AppColors.black, // Text and icon color
+                      side: const BorderSide(
+                        color: AppColors.black, // Border color
+                        width: 1, // Border thickness
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8), // Rounded corners
+                      ),
+                      elevation: 2, // Button shadow
+                    ),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Added to cart')));
+                        const SnackBar(content: Text('Added to cart')),
+                      );
                     },
-                    child: const Align(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Buy Now',
-                              style: TextStyle(
-                                  color: AppColors.black, fontSize: 18)),
-                          SizedBox(width: 10),
-                          Icon(Icons.shopping_cart, color: AppColors.black)
-                        ],
-                      ),
-                    )),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Buy Now',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Icon(Icons.shopping_cart),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

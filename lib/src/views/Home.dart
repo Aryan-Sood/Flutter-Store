@@ -1,12 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:store/src/constants/AppColors.dart';
-import 'package:store/src/constants/DefaultImage.dart';
-import 'package:store/src/models/Product.dart';
 import 'package:store/src/services/APIService.dart';
-import 'package:store/src/utils/ProductConverter.dart';
-import 'package:store/src/widgets/ModalSheet.dart';
-import 'package:store/src/widgets/ProductListItem.dart';
+import 'package:store/src/widgets/HomePageList.dart';
+import 'package:store/src/utils/ShowProductModal.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,19 +18,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     data = APIService.fetchData();
-  }
-
-  void _showProductDetailsModal(BuildContext context, Product product) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return ProductModalSheet(product: product);
-      },
-    );
   }
 
   @override
@@ -76,17 +59,8 @@ class _HomePageState extends State<HomePage> {
             );
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final items = snapshot.data!;
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final Product product = ProductDataConversion(items[index]);
-                return ProductListItem(
-                    product: product,
-                    tapProvider: _showProductDetailsModal,
-                    parentContext: context);
-              },
-            );
+            return HomePageList(
+                items: items, showProductModal: showProductModal);
           } else {
             return const Center(
               child: Text(
