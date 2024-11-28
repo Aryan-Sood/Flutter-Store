@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store/src/models/Product.dart';
-import 'package:store/src/widgets/ModalSheet.dart';
+import 'package:store/src/views/ModalSheet.dart';
 
 void showProductModal(BuildContext context, Product product) {
   showModalBottomSheet(
